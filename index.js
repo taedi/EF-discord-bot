@@ -10,7 +10,8 @@ client.on("ready", () => {
   const channels = {
     all: client.channels.cache.get(settings.statsChannel.all),
     member: client.channels.cache.get(settings.statsChannel.member),
-    bot: client.channels.cache.get(settings.statsChannel.bot)
+    bot: client.channels.cache.get(settings.statsChannel.bot),
+    voice: client.channels.cache.get(settings.statsChannel.voiceConnect)
   }
 
   fn()
@@ -20,13 +21,15 @@ client.on("ready", () => {
       all: guild.memberCount,
       member: guild.members.cache.filter((member) => !member.user.bot).size,
       bot: guild.members.cache.filter((member) => member.user.bot).size,
+      voice: guild.members.cache.filter((member) => member.voice.channel ? member.voice.channel.guild.id === guild.id : false).size
     }
     
     await channels.all.setName('All: ' + stats.all)
     await channels.member.setName('Member: ' + stats.member)
     await channels.bot.setName('Bot: ' + stats.bot)
+    await channels.bot.setName('Voice: ' + stats.voice)
 
-    console.log('Member count success')
+    console.log('Member count success', stats)
   }
 })
 

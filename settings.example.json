@@ -4,6 +4,7 @@
   "statsChannel": {
     "all": "",
     "member": "",
-    "bot": ""
+    "bot": "",
+    "voiceConnect": ""
   }
 }
