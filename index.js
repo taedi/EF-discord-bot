@@ -11,7 +11,7 @@ client.on("ready", () => {
     all: client.channels.cache.get(settings.statsChannel.all),
     member: client.channels.cache.get(settings.statsChannel.member),
     bot: client.channels.cache.get(settings.statsChannel.bot),
-    voice: client.channels.cache.get(settings.statsChannel.voiceConnect)
+    voice: client.channels.cache.get(settings.statsChannel.voice)
   }
 
   fn()
@@ -27,7 +27,7 @@ client.on("ready", () => {
     await channels.all.setName('All: ' + stats.all)
     await channels.member.setName('Member: ' + stats.member)
     await channels.bot.setName('Bot: ' + stats.bot)
-    await channels.bot.setName('Voice: ' + stats.voice)
+    await channels.voice.setName('Voice: ' + stats.voice)
 
     console.log('Member count success', stats)
   }
