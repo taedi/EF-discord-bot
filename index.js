@@ -24,13 +24,12 @@ const updateMembers = () => {
 
 // client.on('guildMemberJoin', () => updateMembers)
 // client.on('guildMemberRemove', () => updateMembers)
-// client.on('voiceStateUpdate', (oldState, newState) => {
-//   const voiceChannels = newState.member.guild.channels.cache.filter(c => c.type === 'voice')
-//   let count = 0
-//   for (const [id, voiceChannel] of voiceChannels) count += voiceChannel.members.size
-//   console.log("Voice connection updated", count)
-//   return client.channels.cache.get(settings.statsChannel.voice).setName('📡ㅣ음성 연결 : ' + count)
-// })
+client.on('voiceStateUpdate', (oldState, newState) => {
+  const voiceChannels = newState.member.guild.channels.cache.filter(c => c.type === 'voice')
+  let count = 0
+  for (const [id, voiceChannel] of voiceChannels) count += voiceChannel.members.size
+  return console.log("Now voice connection member: ", count)
+})
 
 client.on("ready", () => {
   console.log("Bot Ready")
