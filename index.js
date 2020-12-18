@@ -2,35 +2,33 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 
 const settings = require( "./settings.json")
+const guild = client.guilds.cache.get(settings.guildId)
+
+const updateMembers = guild => {
+  stats = {
+    all: guild.memberCount,
+    member: guild.members.cache.filter((member) => !member.user.bot).size,
+    bot: guild.members.cache.filter((member) => member.user.bot).size
+  }
+
+  client.channels.cache.get(settings.statsChannel.all).setName('All: ' + stats.all)
+  client.channels.cache.get(settings.statsChannel.member).setName('Member: ' + stats.member)
+  client.channels.cache.get(settings.statsChannel.bot).setName('Bot: ' + stats.bot)
+  console.log("Member count updated", stats)
+}
+
+client.on('guildMemberJoin', (member) => updateMembers(member.guild))
+client.on('guildMemberRemove', (member) => updateMembers(member.guild))
+client.on('voiceStateUpdate', (oldState, newState) => {
+  const voiceChannels = newState.member.guild.channels.cache.filter(c => c.type === 'voice');
+  let count = 0;
+  for (const [id, voiceChannel] of voiceChannels) count += voiceChannel.members.size;
+  console.log("Voice connection updated", count)
+  return client.channels.cache.get(settings.statsChannel.voice).setName('📡ㅣ음성 연결 : ' + count);
+})
 
 client.on("ready", () => {
   console.log("Bot Ready")
-
-  const guild = client.guilds.cache.get(settings.guildId)
-  const channels = {
-    all: client.channels.cache.get(settings.statsChannel.all),
-    member: client.channels.cache.get(settings.statsChannel.member),
-    bot: client.channels.cache.get(settings.statsChannel.bot),
-    voice: client.channels.cache.get(settings.statsChannel.voice)
-  }
-
-  fn()
-  setInterval(fn, 1000)
-  async function fn () {
-    const stats = {
-      all: guild.memberCount,
-      member: guild.members.cache.filter((member) => !member.user.bot).size,
-      bot: guild.members.cache.filter((member) => member.user.bot).size,
-      voice: guild.members.cache.filter((member) => member.voice.channel ? member.voice.channel.guild.id === guild.id : false).size
-    }
-    
-    await channels.all.setName('All: ' + stats.all)
-    await channels.member.setName('Member: ' + stats.member)
-    await channels.bot.setName('Bot: ' + stats.bot)
-    await channels.voice.setName('Voice: ' + stats.voice)
-
-    console.log('Member count success', stats)
-  }
 })
 
 client.login(settings.token)

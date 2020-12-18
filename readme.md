@@ -25,3 +25,7 @@
     ㄴ bot: 봇 수를 표시할 채널 ID를 넣어주세요
     
     ㄴ voice: 음성 채널에 접속한 유저 수를 표시할 채널 ID를 넣어주세요
+
+ # Thanks To...
+ - [PMH 형님(?)](https://github.com/pmh-only)
+ - [SangHyeon님](https://github.com/gitksh)
